@@ -1,3 +1,45 @@
 from django.db import models
 
-# Create your models here.
+
+class Application(models.Model):
+    """
+    Model that stores Application information.
+    """
+    
+    name = models.CharField(max_length=128)
+    department = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
+class Configuration(models.Model):
+    """
+    Model that stores Configurations and history.
+    """
+
+    CONFIGURATION_TYPES = (
+        ('meta', 'Metadata'),
+        ('tech', 'Technical Data')
+    )
+
+    type_choice = models.CharField(
+        max_length=4, 
+        choices=CONFIGURATION_TYPES
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    roles_set = models.JSONField(default=dict)
+    history_log = models.JSONField(default=dict)
+
+    application = models.ForeignKey(
+        Application, 
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return '{type_choice}-{application_name}'.format(
+            type_choice=self.type_choice, 
+            application_name=self.application.name
+        )
