@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Application
+from .models import Application, Configuration
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -10,4 +10,24 @@ class ApplicationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Application
-        fields = ('name', 'department',)
+        fields = ('id', 'name', 'department',)
+
+
+class ConfigurationSerializer(serializers.ModelSerializer):
+    """
+    Model Serializer used to visualize items from Configuration model.
+    """
+    
+    class Meta:
+        model = Configuration
+        fields = ('id', 'created_at', 'updated_at', 'type_choice', 'roles_set',)
+
+
+class ConfigurationCreateUpdateSerializer(serializers.ModelSerializer):
+    """
+    Model Serializer used to create or update items from Configuration model.
+    """
+    
+    class Meta:
+        model = Configuration
+        fields = ('type_choice', 'roles_set', 'application',)
