@@ -1,3 +1,4 @@
+from ensurepip import version
 from rest_framework import serializers
 
 from .models import Application, Configuration
@@ -31,3 +32,25 @@ class ConfigurationCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Configuration
         fields = ('type_choice', 'roles_set', 'application',)
+
+    def update(self, instance, validated_data):
+        
+        if not instance.history_log:
+            instance.history_log.append({
+                'version': 1,
+                'updated_at': instance.updated_at.strftime('%m.%d.%Y, %H:%M:%S'), 
+                'roles_set': instance.roles_set
+            })
+        else:
+            current_version = instance.history_log[-1].get('version')
+            instance.history_log.append({
+                'version': current_version + 1,
+                'updated_at': instance.updated_at.strftime('%m.%d.%Y, %H:%M:%S'), 
+                'roles_set': instance.roles_set
+            })
+
+        instance = super(
+            ConfigurationCreateUpdateSerializer, self).update(
+                instance, validated_data)
+        
+        return instance

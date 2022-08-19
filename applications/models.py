@@ -31,7 +31,7 @@ class Configuration(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     roles_set = models.JSONField(default=dict)
-    history_log = models.JSONField(default=dict)
+    history_log = models.JSONField(default=list)
 
     application = models.ForeignKey(
         Application, 
@@ -43,3 +43,10 @@ class Configuration(models.Model):
             type_choice=self.type_choice, 
             application_name=self.application.name
         )
+    
+    def __to_dict__(self):
+        return {
+            'type_choice': self.type_choice,
+            'created_at': self.created_at.strftime('%m.%d.%Y, %H:%M:%S'),
+            'application': self.application.pk
+        }
