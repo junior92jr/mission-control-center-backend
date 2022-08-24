@@ -11,7 +11,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Application
-        fields = ('id', 'name', 'department',)
+        fields = ('id', 'name','department', 'description',)
 
 
 class ConfigurationSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class ConfigurationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Configuration
-        fields = ('id', 'created_at', 'updated_at', 'type_choice', 'roles_set',)
+        fields = ('id', 'created_at', 'updated_at', 'type_choice', 'roles_set', 'application',)
 
 
 class ConfigurationCreateUpdateSerializer(serializers.ModelSerializer):

@@ -4,6 +4,8 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 
 from .common import MultiSerializerViewSet
@@ -40,6 +42,10 @@ class ConfigurationViewSet(MultiSerializerViewSet):
         'create': ConfigurationCreateUpdateSerializer,
         'update': ConfigurationCreateUpdateSerializer,
     }
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = (
+        'application',
+    )
 
     permission_classes = (AllowAny,)
     queryset = Configuration.objects.all()

@@ -8,6 +8,7 @@ class Application(models.Model):
     
     name = models.CharField(max_length=128)
     department = models.CharField(max_length=128)
+    description = models.TextField()
 
     def __str__(self):
         return self.name
