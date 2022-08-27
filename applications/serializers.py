@@ -54,3 +54,10 @@ class ConfigurationCreateUpdateSerializer(serializers.ModelSerializer):
                 instance, validated_data)
         
         return instance
+
+class VersionInputSerializer(serializers.Serializer):
+    """
+    Serializer that Handles Input field for versions.
+    """
+    
+    pk = serializers.IntegerField()

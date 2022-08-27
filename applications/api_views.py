@@ -14,6 +14,7 @@ from .models import (
     Configuration
 )
 from .serializers import (
+    VersionInputSerializer,
     ApplicationSerializer,
     ConfigurationSerializer,
     ConfigurationCreateUpdateSerializer,
@@ -70,6 +71,9 @@ class ConfigurationViewSet(MultiSerializerViewSet):
         """
         Perform get versions logic from Configurations.
         """
+
+        input_serializer = VersionInputSerializer(data={'pk': pk})
+        input_serializer.is_valid(raise_exception=True)
 
         configuration = get_object_or_404(Configuration, pk=pk)
 
