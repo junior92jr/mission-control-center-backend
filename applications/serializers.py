@@ -1,4 +1,4 @@
-from ensurepip import version
+from schema import Schema, SchemaError
 from rest_framework import serializers
 
 from .models import Application, Configuration
@@ -28,7 +28,18 @@ class ConfigurationCreateUpdateSerializer(serializers.ModelSerializer):
     """
     Model Serializer used to create or update items from Configuration model.
     """
-    
+
+    def validate(self, data):
+        """
+        Validate is roles set are a correct schema.
+        """
+
+        schema = Schema({str:str})
+
+        if not schema.is_valid(data['roles_set']):
+            raise serializers.ValidationError('Roles are not in the correct format.')
+        return data
+
     class Meta:
         model = Configuration
         fields = ('type_choice', 'roles_set', 'application',)
